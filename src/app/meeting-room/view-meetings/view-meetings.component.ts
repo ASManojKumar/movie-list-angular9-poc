@@ -15,10 +15,12 @@ import { ViewEventModalComponent } from '../modal/view-event-modal/view-event-mo
 
 export class ViewMeetingsComponent implements OnInit {
 
+  alerts: any = [];
   dayStartHour = 9;
   dayEndHour = 17;
   weekDays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
   city: any;
+  show_alert: any;
 
   meetingRooms = [{
     'name': 'London'
@@ -78,9 +80,17 @@ export class ViewMeetingsComponent implements OnInit {
 
   // for booking a room
   openBookRoomModal(event) {
+    this.show_alert = false;
     let all_events = [...this.events];
     let selected_date = this.weekDays[event.date.getDay()];
     if (selected_date === 'Saturday' || selected_date === 'Sunday') {
+      this.alerts = [];
+      this.show_alert = true;
+      this.alerts.push({
+        type: 'warning',
+        msg: `Events cant be added on Saturday's and Sunday's`,
+        timeout: 3000
+      });
       return;
     }
     let modal = this.modalService.show(BookRoomModalComponent, { class: 'modal-md' });

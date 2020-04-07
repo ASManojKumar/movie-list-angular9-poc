@@ -14,6 +14,7 @@ import { BookRoomModalComponent } from './meeting-room/modal/book-room-modal/boo
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { ViewEventModalComponent } from './meeting-room/modal/view-event-modal/view-event-modal.component';
 import { pipesModule } from './shared/pipes.module';
+import { AlertModule } from 'ngx-bootstrap/alert';
 
 @NgModule({
   declarations: [
@@ -30,6 +31,7 @@ import { pipesModule } from './shared/pipes.module';
     ModalModule.forRoot(),
     TimepickerModule.forRoot(),
     pipesModule.forRoot(),
+    AlertModule.forRoot(),
     CalendarModule.forRoot({
       provide: DateAdapter,
       useFactory: adapterFactory,
