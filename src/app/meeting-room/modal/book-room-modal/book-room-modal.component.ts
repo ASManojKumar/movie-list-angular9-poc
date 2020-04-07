@@ -1,8 +1,7 @@
 import { Component } from '@angular/core';
 import { Subject } from 'rxjs';
 import { BsModalRef } from 'ngx-bootstrap/modal';
-import { addHours, startOfDay } from 'date-fns';
-import { CalendarEventAction, CalendarEvent } from 'angular-calendar';
+import { CalendarEvent } from 'angular-calendar';
 
 @Component({
   selector: 'app-book-room-modal',
@@ -16,6 +15,7 @@ export class BookRoomModalComponent {
   minute_step = 15;
   min_time: Date = new Date();
   max_time: Date = new Date();
+  all_events: any;
 
   constructor(private _bsModalRef: BsModalRef) {
     this.meeting_form = {
@@ -56,36 +56,27 @@ export class BookRoomModalComponent {
     this.onClose = new Subject();
   }
 
-  public showConfirmationModal(): void {
+  public showConfirmationModal(events: any): void {
+    this.all_events = [...events];
   }
 
   events: CalendarEvent[] = [];
 
+  // for checking whether room is available or already used
   checkTime() {
-    // let start_time = this.meeting_form.data.start_time.toString(this.meeting_form.data.start_time.getHours() + this.meeting_form.data.start_time.getMinutes());
-    // let end_time = this.meeting_form.data.end_time.getHours() + this.meeting_form.data.end_time.getMinutes();
-    // // if (start_time && end_time) {
-    // //   debugger
-    // // }
-    // let diff = 0;
-    // if (start_time && end_time) {
-    //   start_time = ConvertToSeconds(start_time);
-    //   end_time = ConvertToSeconds(end_time);
-    //   diff = Math.abs(end_time - start_time);
-    //   console.log('time difference is : ' + secondsTohhmmss(diff));
-    // }
-
-    // function ConvertToSeconds(time) {
-    //   var splitTime = time.split(":");
-    //   return splitTime[0] * 3600 + splitTime[1] * 60;
-    // }
-
-    // function secondsTohhmmss(secs: number) {
-    //   let hours = secs / 3600;
-    //   var seconds = secs % 3600;
-    //   var minutes = seconds / 60;
-    //   return hours + "hours : " + minutes + "minutes ";
-    // }
+    this.all_events.forEach(data => {
+      if (data && data.start.getDate() === this.meeting_form.data.date.getDate() && data.meta.room.name === this.meeting_form.data.roomName.name) {
+        let start_time_milli = data.start.getTime();
+        let end_time_milli = data.end.getTime();
+        let start_time_check_milli = this.meeting_form.data.start.getTime();
+        let end_time_check_milli = this.meeting_form.data.end.getTime();
+        if ((start_time_check_milli <= start_time_milli || start_time_check_milli <= end_time_milli) || (end_time_check_milli <= start_time_milli || end_time_check_milli <= end_time_milli)) {
+          this.meeting_form.meeting_room_not_available = true;
+        } else {
+          this.meeting_form.meeting_room_not_available = false;
+        }
+      }
+    });
   }
 
   getStartTimeEndTimeAccordingtoDate() {
@@ -101,19 +92,21 @@ export class BookRoomModalComponent {
 
   public submitForm() {
     this.getStartTimeEndTimeAccordingtoDate();
-    this._bsModalRef.hide();
-    let booking_details = {
-      start: this.meeting_form.data.start,
-      end: this.meeting_form.data.end,
-      title: this.meeting_form.data.agenda,
-      // actions: this.actions,
-      meta: {
-        'name': this.meeting_form.data.userName,
-        'room': this.meeting_form.data.roomName,
-        'date': this.meeting_form.data.date
+    this.checkTime();
+    if (!this.meeting_form.meeting_room_not_available) {
+      this._bsModalRef.hide();
+      let booking_details = {
+        start: this.meeting_form.data.start,
+        end: this.meeting_form.data.end,
+        title: this.meeting_form.data.agenda,
+        meta: {
+          'name': this.meeting_form.data.userName,
+          'room': this.meeting_form.data.roomName,
+          'date': this.meeting_form.data.date
+        }
       }
+      this.onClose.next(booking_details);
     }
-    this.onClose.next(booking_details);
   }
 
   public onCancel() {

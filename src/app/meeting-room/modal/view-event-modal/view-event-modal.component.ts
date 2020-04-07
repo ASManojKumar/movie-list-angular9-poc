@@ -19,8 +19,7 @@ export class ViewEventModalComponent {
     this.onClose = new Subject();
   }
 
-  public showConfirmationModal(body: any, events): void {
-
+  public showConfirmationModal(body: any): void {
     this.view_event_details.data = body;
   }
 

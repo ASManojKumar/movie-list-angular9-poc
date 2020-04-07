@@ -57,10 +57,9 @@ export class ViewMeetingsComponent implements OnInit {
   constructor(private modalService: BsModalService) { }
 
   handleEvent(event): void {
-    let all_events = { ...this.events };
     let modal = this.modalService.show(ViewEventModalComponent, { class: 'modal-md' });
     (<ViewEventModalComponent>modal.content).showConfirmationModal(
-      event, all_events
+      event
     );
     (<ViewEventModalComponent>modal.content).onClose.subscribe(result => {
       if (result) {
@@ -79,12 +78,15 @@ export class ViewMeetingsComponent implements OnInit {
 
   // for booking a room
   openBookRoomModal(event) {
+    let all_events = [...this.events];
     let selected_date = this.weekDays[event.date.getDay()];
     if (selected_date === 'Saturday' || selected_date === 'Sunday') {
       return;
     }
     let modal = this.modalService.show(BookRoomModalComponent, { class: 'modal-md' });
-    (<BookRoomModalComponent>modal.content).showConfirmationModal();
+    (<BookRoomModalComponent>modal.content).showConfirmationModal(
+      all_events
+    );
     (<BookRoomModalComponent>modal.content).onClose.subscribe(data => {
       if (data) {
         this.refresh.next();
