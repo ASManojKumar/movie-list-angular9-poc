@@ -1,0 +1,85 @@
+<div class="modal-header">
+  <h4 class="modal-title pull-left">Book a Room</h4>
+  <button type="button" class="close pull-right" aria-label="Close" (click)="onCancel()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <form #meetingRoomForm="ngForm" name="form" (ngSubmit)="meetingRoomForm.form.valid && submitForm()" novalidate>
+    <div class="container meeting-room-form-container">
+      <div class="form-group">
+        <label>
+          <span>Enter User Name</span>
+          <span class="required">*</span>
+        </label>
+        <input type="text" class="form-control" name="userName" [(ngModel)]="meeting_form.data.userName" #userName="ngModel" [ngClass]="{ 'is-invalid': meetingRoomForm.submitted && userName.invalid }"
+          required placeholder="Enter name" />
+        <div class="error-msg" *ngIf="meetingRoomForm.submitted && userName.invalid">
+          <div class="text-danger" *ngIf="userName.errors.required">Username Required</div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>
+          <span>Enter Room Name</span>
+          <span class="required">*</span>
+        </label>
+        <select class="room-dropdown-section" id="roomName" [(ngModel)]="meeting_form.data.roomName" name="roomName" placeholder="Enter Room Name"
+          required #roomName="ngModel">
+          <option hidden [ngValue]="undefined">Enter Room Name</option>
+          <option *ngFor="let room of meeting_form.room_name_details" [ngValue]="room">{{room.name}}</option>
+        </select>
+        <div class="error-msg" *ngIf="meetingRoomForm.submitted && roomName.invalid">
+          <div class="text-danger" *ngIf="roomName.errors.required">Room Name Required</div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>
+          <span>Date</span>
+          <span class="required">*</span>
+        </label>
+        <input autocomplete="off" type="text" name="from_date" placeholder="Enter Date" class="form-control" bsDatepicker [bsConfig]="{ showWeekNumbers:false, selectFromOtherMonth: true, dateInputFormat: 'DD-MMMM-YYYY'}"
+          [(ngModel)]="meeting_form.data.date" [minDate]="min_date" #date="ngModel" [daysDisabled]="[6,0]" required>
+        <div class="error-msg" *ngIf="meetingRoomForm.submitted && date.invalid">
+          <div class="text-danger" *ngIf="date.errors.required">Date Required</div>
+        </div>
+      </div>
+
+      <div class="form-group time-picker-section">
+        <label>
+          <span>Start Time</span>
+          <span class="required">*</span>
+        </label>
+        <timepicker name="start_time" [showMeridian]="false" [(ngModel)]="meeting_form.start_time" #startTime="ngModel" [min]="min_time"
+          [max]="max_time" [minuteStep]="minute_step" required (ngModelChange)="checkTime()"></timepicker>
+        <div class="error-msg" *ngIf="meetingRoomForm.submitted && startTime.invalid">
+          <div class="text-danger" *ngIf="startTime.errors.required">Start Time Required</div>
+        </div>
+      </div>
+      <div class="form-group time-picker-section">
+        <label>
+          <span>End Time</span>
+          <span class="required">*</span>
+        </label>
+        <timepicker name="end_time" [showMeridian]="false" [(ngModel)]="meeting_form.end_time" [min]="meeting_form.data.start_time"
+          [max]="max_time" #endTime="ngModel" [minuteStep]="minute_step" required (ngModelChange)="checkTime()"></timepicker>
+        <div class="error-msg" *ngIf="meetingRoomForm.submitted && endTime.invalid">
+          <div class="text-danger" *ngIf="endTime.errors.required">End Time Required</div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>
+          <span>Enter Agenda</span>
+          <span class="required">*</span>
+        </label>
+        <textarea type="text" class="form-control" name="agenda" rows="3" [(ngModel)]="meeting_form.data.agenda" #agenda="ngModel"
+          [ngClass]="{ 'is-invalid': meetingRoomForm.submitted && agenda.invalid }" required placeholder="Enter Agenda"></textarea>
+        <div class="error-msg" *ngIf="meetingRoomForm.submitted && agenda.invalid">
+          <div class="text-danger" *ngIf="agenda.errors.required">Agenda Required</div>
+        </div>
+      </div>
+      <div>
+        <button class="btn btn-primary" type="submit">Submit</button>
+      </div>
+    </div>
+  </form>
+</div>

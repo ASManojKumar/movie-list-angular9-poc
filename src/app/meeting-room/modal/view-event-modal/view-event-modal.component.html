@@ -1,0 +1,18 @@
+<div class="modal-header">
+  <h4 class="modal-title pull-left">Event Details</h4>
+  <button type="button" class="close pull-right" class="close" (click)="onCancel()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <div>User Name : {{view_event_details.data?.meta.name}}</div>
+  <div>Room Name : {{view_event_details.data?.meta.room.name}}</div>
+  <div>Start Time : {{view_event_details.data?.start | date: 'd/M/yy, h:mm a'}}</div>
+  <div>End Time : {{view_event_details.data?.end | date: 'd/M/yy, h:mm a'}}</div>
+  <div>Agenda : {{view_event_details.data?.title}}</div>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-outline-secondary" (click)="onCancel()">
+    OK
+  </button>
+</div>

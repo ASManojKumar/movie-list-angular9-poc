@@ -1,0 +1,17 @@
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  height: calc(100vh - 66px);
+}
+
+.text-danger {
+  color: #ED1C24;
+}
+
+.form-group label .required,
+.input-group label .required {
+  font-size: 12px;
+  color: #ED1C24;
+  top: -4px;
+  position: relative;
+  font-weight: 500;
+}
