@@ -5,11 +5,26 @@
   </button>
 </div>
 <div class="modal-body">
-  <div>User Name : {{view_event_details.data?.meta.name}}</div>
-  <div>Room Name : {{view_event_details.data?.meta.room.name}}</div>
-  <div>Start Time : {{view_event_details.data?.start | date: 'd/M/yy, h:mm a'}}</div>
-  <div>End Time : {{view_event_details.data?.end | date: 'd/M/yy, h:mm a'}}</div>
-  <div>Agenda : {{view_event_details.data?.title}}</div>
+  <div class="row">
+    <span class="col-md-4">User Name :</span>
+    <span [innerText]="view_event_details.data?.meta.name"></span>
+  </div>
+  <div class="row">
+    <span class="col-md-4">Room Name :</span>
+    <span [innerText]="view_event_details.data?.meta.room.name"></span>
+  </div>
+  <div class="row">
+    <span class="col-md-4">Start Time :</span>
+    <span [innerText]="view_event_details.data?.start | date: 'd/M/yy, h:mm a'"></span>
+  </div>
+  <div class="row">
+    <span class="col-md-4">End Time :</span>
+    <span [innerText]="view_event_details.data?.end | date: 'd/M/yy, h:mm a'"></span>
+  </div>
+  <div class="row">
+    <span class="col-md-4">Agenda :</span>
+    <span [innerText]="view_event_details.data?.title"></span>
+  </div>
 </div>
 <div class="modal-footer">
   <button type="button" class="btn btn-outline-secondary" (click)="onCancel()">

@@ -23,7 +23,6 @@ export class BookRoomModalComponent {
         'start': new Date(),
         'end': new Date()
       },
-      // 'current_time': new Date(),
       'room_name_details': [{
         'name': 'London'
       }, {
