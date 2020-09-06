@@ -1,0 +1,14 @@
+<div class="breadcrumb">
+  <span class="movie-title cursor-pointer" [routerLink]="'/list'">Home</span> |
+  <span class="movie-title" [innerText]="movie_detail.title ? movie_detail.title : '-'"></span>
+</div>
+<div class="movie-detail-container">
+  <div class="row">
+    <div class="col-12">
+      <div class="row">
+        <img class="movie-img col-3" [src]="'http://image.tmdb.org/t/p/w342/' + (movie_detail.poster_path)" alt="No image found">
+        <h1 class="movie-title col-9" [innerText]="movie_detail.title ? movie_detail.title : '-'"></h1>
+      </div>
+    </div>
+  </div>
+</div>

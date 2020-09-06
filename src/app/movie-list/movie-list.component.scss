@@ -1,0 +1,12 @@
+.movie-list-container {
+  .body-content {
+    padding: 20px 200px;
+    .movie-section {
+      margin-bottom: 30px;
+      cursor: pointer;
+      .movie-img {
+        max-width: 250px;
+      }
+    }
+  }
+}

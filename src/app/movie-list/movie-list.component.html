@@ -1,0 +1,15 @@
+<div class="movie-list-container">
+  <div class="body-content">
+    <h2>Landing Page</h2>
+    <div class="row">
+      <div class="col-12">
+        <div class="row">
+          <div class="col-3 movie-section" *ngFor="let list of movie_list" (click)="goToDetailPage(list.id)">
+            <img class="movie-img" [src]="'http://image.tmdb.org/t/p/w342/' + (list.poster_path)" alt="No image found">
+            <div class="movie-title" [innerText]="list.title ? list.title : '-'"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
